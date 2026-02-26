@@ -1,0 +1,556 @@
+{
+	"info": {
+		"_postman_id": "meublehub-collection-2024",
+		"name": "MeubleHub API - CRUD Tests",
+		"description": "Collection Postman pour tester les CRUD de Categorie et Produit",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Categorie CRUD",
+			"item": [
+				{
+					"name": "1. GET - Toutes les catégories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8095/categorie",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8095",
+							"path": [
+								"categorie"
+							]
+						},
+						"description": "Récupère toutes les catégories"
+					}
+				},
+				{
+					"name": "2. GET - Catégorie par ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8095/categorie/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8095",
+							"path": [
+								"categorie",
+								"1"
+							]
+						},
+						"description": "Récupère une catégorie par son ID"
+					}
+				},
+				{
+					"name": "3. POST - Créer une catégorie",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nom\": \"Meubles de salon\",\n    \"description\": \"Catégorie pour tous les meubles de salon\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8095/categorie",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8095",
+							"path": [
+								"categorie"
+							]
+						},
+						"description": "Crée une nouvelle catégorie"
+					}
+				},
+				{
+					"name": "4. PUT - Mettre à jour une catégorie",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nom\": \"Meubles de salon - Modifié\",\n    \"description\": \"Description mise à jour\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8095/categorie/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8095",
+							"path": [
+								"categorie",
+								"1"
+							]
+						},
+						"description": "Met à jour une catégorie existante"
+					}
+				},
+				{
+					"name": "5. DELETE - Supprimer une catégorie",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8095/categorie/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8095",
+							"path": [
+								"categorie",
+								"1"
+							]
+						},
+						"description": "Supprime une catégorie (ne fonctionne que si elle n'a pas de produits)"
+					}
+				},
+				{
+					"name": "6. GET - Catégories principales",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8095/categorie/principales",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8095",
+							"path": [
+								"categorie",
+								"principales"
+							]
+						},
+						"description": "Récupère les catégories principales (sans parent)"
+					}
+				},
+				{
+					"name": "7. GET - Rechercher catégories par nom",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8095/categorie/recherche?nom=salon",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8095",
+							"path": [
+								"categorie",
+								"recherche"
+							],
+							"query": [
+								{
+									"key": "nom",
+									"value": "salon"
+								}
+							]
+						},
+						"description": "Recherche des catégories par nom (partiel)"
+					}
+				}
+			]
+		},
+		{
+			"name": "Produit CRUD",
+			"item": [
+				{
+					"name": "1. GET - Tous les produits",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8095/produit",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8095",
+							"path": [
+								"produit"
+							]
+						},
+						"description": "Récupère tous les produits"
+					}
+				},
+				{
+					"name": "2. GET - Produit par ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8095/produit/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8095",
+							"path": [
+								"produit",
+								"1"
+							]
+						},
+						"description": "Récupère un produit par son ID"
+					}
+				},
+				{
+					"name": "3. POST - Créer un produit (avec catégorie existante)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nom\": \"Chaise en bois massif\",\n    \"description\": \"Belle chaise en bois massif, confortable et élégante\",\n    \"prix\": 250.0,\n    \"quantiteStock\": 15,\n    \"vendeurId\": 1,\n    \"categorie\": {\n        \"id\": 1\n    },\n    \"images\": [\n        \"https://example.com/image1.jpg\",\n        \"https://example.com/image2.jpg\"\n    ],\n    \"caracteristiques\": {\n        \"matiere\": \"Bois massif\",\n        \"couleur\": \"Chêne naturel\",\n        \"dimensions\": \"45x50x90 cm\"\n    }\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8095/produit",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8095",
+							"path": [
+								"produit"
+							]
+						},
+						"description": "Crée un nouveau produit avec une catégorie existante"
+					}
+				},
+				{
+					"name": "4. POST - Créer un produit (catégorie simple)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nom\": \"Table basse moderne\",\n    \"description\": \"Table basse design en verre et métal\",\n    \"prix\": 180.0,\n    \"quantiteStock\": 8,\n    \"vendeurId\": 2,\n    \"categorie\": {\n        \"id\": 1\n    }\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8095/produit",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8095",
+							"path": [
+								"produit"
+							]
+						},
+						"description": "Crée un produit simple avec catégorie"
+					}
+				},
+				{
+					"name": "5. PUT - Mettre à jour un produit",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nom\": \"Chaise en bois massif - Modifiée\",\n    \"description\": \"Description mise à jour\",\n    \"prix\": 280.0,\n    \"quantiteStock\": 20,\n    \"categorie\": {\n        \"id\": 1\n    }\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8095/produit/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8095",
+							"path": [
+								"produit",
+								"1"
+							]
+						},
+						"description": "Met à jour un produit existant"
+					}
+				},
+				{
+					"name": "6. DELETE - Supprimer un produit",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8095/produit/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8095",
+							"path": [
+								"produit",
+								"1"
+							]
+						},
+						"description": "Supprime un produit"
+					}
+				},
+				{
+					"name": "7. GET - Produits par catégorie",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8095/produit/categorie/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8095",
+							"path": [
+								"produit",
+								"categorie",
+								"1"
+							]
+						},
+						"description": "Récupère tous les produits d'une catégorie spécifique"
+					}
+				}
+			]
+		},
+		{
+			"name": "Scénarios de test complets",
+			"item": [
+				{
+					"name": "Scénario 1: Créer catégorie puis produit",
+					"item": [
+						{
+							"name": "Étape 1: Créer catégorie",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"nom\": \"Meubles de chambre\",\n    \"description\": \"Catégorie pour meubles de chambre à coucher\"\n}"
+								},
+								"url": {
+									"raw": "http://localhost:8095/categorie",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8095",
+									"path": [
+										"categorie"
+									]
+								}
+							}
+						},
+						{
+							"name": "Étape 2: Créer produit avec cette catégorie",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"nom\": \"Lit double en bois\",\n    \"description\": \"Lit double confortable en bois massif\",\n    \"prix\": 450.0,\n    \"quantiteStock\": 5,\n    \"vendeurId\": 1,\n    \"categorie\": {\n        \"id\": 1\n    }\n}"
+								},
+								"url": {
+									"raw": "http://localhost:8095/produit",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8095",
+									"path": [
+										"produit"
+									]
+								}
+							}
+						},
+						{
+							"name": "Étape 3: Vérifier les produits de la catégorie",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8095/produit/categorie/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8095",
+									"path": [
+										"produit",
+										"categorie",
+										"1"
+									]
+								}
+							}
+						}
+					]
+				},
+				{
+					"name": "Scénario 2: Test de suppression avec contrainte",
+					"item": [
+						{
+							"name": "Étape 1: Créer catégorie",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"nom\": \"Meubles de bureau\",\n    \"description\": \"Catégorie test\"\n}"
+								},
+								"url": {
+									"raw": "http://localhost:8095/categorie",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8095",
+									"path": [
+										"categorie"
+									]
+								}
+							}
+						},
+						{
+							"name": "Étape 2: Créer produit dans cette catégorie",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"nom\": \"Bureau en bois\",\n    \"description\": \"Bureau professionnel\",\n    \"prix\": 320.0,\n    \"quantiteStock\": 10,\n    \"categorie\": {\n        \"id\": 2\n    }\n}"
+								},
+								"url": {
+									"raw": "http://localhost:8095/produit",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8095",
+									"path": [
+										"produit"
+									]
+								}
+							}
+						},
+						{
+							"name": "Étape 3: Essayer de supprimer la catégorie (devrait échouer)",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8095/categorie/2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8095",
+									"path": [
+										"categorie",
+										"2"
+									]
+								},
+								"description": "Cette requête devrait retourner une erreur car la catégorie contient des produits"
+							}
+						},
+						{
+							"name": "Étape 4: Supprimer d'abord le produit",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8095/produit/1",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8095",
+									"path": [
+										"produit",
+										"1"
+									]
+								}
+							}
+						},
+						{
+							"name": "Étape 5: Maintenant supprimer la catégorie (devrait réussir)",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8095/categorie/2",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8095",
+									"path": [
+										"categorie",
+										"2"
+									]
+								}
+							}
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8095",
+			"type": "string"
+		}
+	]
+}
+
