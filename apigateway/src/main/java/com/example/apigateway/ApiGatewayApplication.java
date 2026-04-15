@@ -41,6 +41,8 @@ public class ApiGatewayApplication {
 	public RouteLocator getRoutes(RouteLocatorBuilder builder, GatewayRoutingProperties routing) {
 		String catalogue = routing.getCatalogueUri();
 		String commandes = routing.getCommandesUri();
+		String appdistBackend = routing.getAppdistBackendUri();
+
 		return builder.routes()
 				.route("condidat",
 						r -> r.path("/condidat/**")
@@ -91,6 +93,13 @@ public class ApiGatewayApplication {
 						r -> r.path("/commande/**")
 								.filters(f -> f.rewritePath("/commande(?<segment>.*)", "/commandes${segment}"))
 								.uri(commandes))
+
+				.route("paiements",
+						r -> r.path("/api/paiements/**")
+								.uri(appdistBackend))
+				.route("users",
+						r -> r.path("/api/users/**")
+								.uri(appdistBackend))
 				.build();
 	}
 }

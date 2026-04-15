@@ -21,6 +21,15 @@
         </processorPath>
         <module name="catalogue" />
       </profile>
+      <profile name="Annotation profile for eshop" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.44/lombok-1.18.44.jar" />
+        </processorPath>
+        <module name="eshop" />
+      </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
@@ -29,6 +38,7 @@
       <module name="catalogue" options="-parameters" />
       <module name="commandes" options="-parameters" />
       <module name="config-server" options="-parameters" />
+      <module name="eshop" options="-parameters" />
       <module name="eureka" options="-parameters" />
     </option>
   </component>

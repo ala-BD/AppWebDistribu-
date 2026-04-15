@@ -26,7 +26,8 @@ public class RestExceptionHandler {
 	@ExceptionHandler(ResponseStatusException.class)
 	public ResponseEntity<ProblemDetail> handleStatus(ResponseStatusException ex) {
 		HttpStatus status = HttpStatus.valueOf(ex.getStatusCode().value());
-		ProblemDetail pd = ProblemDetail.forStatusAndDetail(status, ex.getReason() != null ? ex.getReason() : status.name());
+		ProblemDetail pd = ProblemDetail.forStatusAndDetail(status,
+				ex.getReason() != null ? ex.getReason() : status.name());
 		pd.setTitle(status.name());
 		return ResponseEntity.status(status).body(pd);
 	}

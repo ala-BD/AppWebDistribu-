@@ -9,6 +9,7 @@
         <option value="$PROJECT_DIR$/apigateway/pom.xml" />
         <option value="$PROJECT_DIR$/config-server/pom.xml" />
         <option value="$PROJECT_DIR$/commandes/pom.xml" />
+        <option value="$PROJECT_DIR$/appdist_backend/pom.xml" />
       </list>
     </option>
   </component>
