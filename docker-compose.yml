@@ -1,0 +1,182 @@
+services:
+  # ==========================================
+  # INFRASTRUCTURE & BASES DE DONNÉES
+  # ==========================================
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: commandes # Crée la BD initiale (les autres pourront être créées par Hibernate ou scripts)
+    ports:
+      - "3306:3306"
+    networks:
+      - meuble-net
+    volumes:
+      - mysql_data:/var/lib/mysql
+    restart: unless-stopped
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+    ports:
+      - "27017:27017"
+    networks:
+      - meuble-net
+    volumes:
+      - mongodb_data:/data/db
+    restart: unless-stopped
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672" # Interface de gestion
+    networks:
+      - meuble-net
+    restart: unless-stopped
+
+  # ==========================================
+  # CŒUR SPRING CLOUD (Discovery & Config)
+  # ==========================================
+  config-server:
+    build:
+      context: ./config-server
+      dockerfile: Dockerfile
+    container_name: config-server
+    ports:
+      - "8888:8888"
+    networks:
+      - meuble-net
+    depends_on:
+      - rabbitmq
+
+  eureka-server:
+    build:
+      context: ./eureka
+      dockerfile: Dockerfile
+    container_name: eureka-server
+    ports:
+      - "8761:8761"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+      - SPRING_CONFIG_IMPORT=configserver:http://config-server:8888
+    networks:
+      - meuble-net
+    depends_on:
+      - config-server
+
+  apigateway:
+    build:
+      context: ./apigateway
+      dockerfile: Dockerfile
+    container_name: apigateway
+    ports:
+      - "9000:9000"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+      - SPRING_CONFIG_IMPORT=configserver:http://config-server:8888
+    networks:
+      - meuble-net
+    depends_on:
+      - eureka-server
+
+
+  # ==========================================
+  # MICROSERVICES METIERS
+  # ==========================================
+  catalogue:
+    build:
+      context: ./catalogue
+      dockerfile: Dockerfile
+    container_name: catalogue
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/catalogue?createDatabaseIfNotExist=true
+      - SPRING_RABBITMQ_HOST=rabbitmq
+    networks:
+      - meuble-net
+    depends_on:
+      - eureka-server
+      - mysql
+      - rabbitmq
+
+  commandes:
+    build:
+      context: ./commandes
+      dockerfile: Dockerfile
+    container_name: commandes
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/commandes?createDatabaseIfNotExist=true
+      - SPRING_RABBITMQ_HOST=rabbitmq
+    networks:
+      - meuble-net
+    depends_on:
+      - eureka-server
+      - mysql
+      - rabbitmq
+
+  appdist-backend:
+    build:
+      context: ./appdist_backend
+      dockerfile: Dockerfile
+    container_name: appdist-backend
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-server:8761/eureka/
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/appdist_backend?createDatabaseIfNotExist=true
+    networks:
+      - meuble-net
+    depends_on:
+      - eureka-server
+      - mysql
+
+  promotions:
+    build:
+      context: ./promotions
+      dockerfile: Dockerfile
+    container_name: promotions
+    ports:
+      - "4005:4005"
+    environment:
+      - MONGO_URI=mongodb://admin:password@mongodb:27017/promotions?authSource=admin
+      - EUREKA_HOST=eureka-server
+      - EUREKA_PORT=8761
+      - PORT=4005
+    networks:
+      - meuble-net
+    depends_on:
+      - eureka-server
+      - mongodb
+
+  # ==========================================
+  # FRONTEND ANGULAR
+  # ==========================================
+  frontend:
+    build:
+      context: ./meuble-hub-frontend
+      dockerfile: Dockerfile
+    container_name: meuble-hub-frontend
+    ports:
+      - "80:80"
+    networks:
+      - meuble-net
+    depends_on:
+      - apigateway
+
+networks:
+  meuble-net:
+    driver: bridge
+
+volumes:
+  mysql_data:
+  mongodb_data:
