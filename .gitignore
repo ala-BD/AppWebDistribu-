@@ -1,3 +1,9 @@
 hs_err_pid*.log
 replay_pid*.log
 Postman*.json
+
+Database/Data/*.db
+
+meuble-hub-frontend/node_modules/
+promotions/node_modules/
+promotions/dist/

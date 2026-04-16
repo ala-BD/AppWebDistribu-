@@ -1,0 +1,125 @@
+/* Modern, sleek, dark-mode focused aesthetic for Meuble Hub */
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  --primary: #cba87c; /* Elegant wood gold / amber */
+  --primary-hover: #b89163;
+  --bg-base: #0f1014;
+  --bg-surface: #1a1c23;
+  --bg-surface-elevated: #252830;
+  
+  --text-main: #fcfcfc;
+  --text-muted: #9ba0af;
+  
+  --danger: #ef4444; /* For promotions / slashes */
+  
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --shadow-glow: 0 0 40px rgba(203, 168, 124, 0.15);
+  
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Outfit', sans-serif;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+body {
+  background-color: var(--bg-base);
+  color: var(--text-main);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  background-image: 
+    radial-gradient(circle at 15% 50%, rgba(203, 168, 124, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 85% 30%, rgba(203, 168, 124, 0.03) 0%, transparent 40%);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.5rem;
+}
+
+p {
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: #000;
+  padding: 12px 24px;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-glow);
+}
+
+.glass-panel {
+  background: rgba(26, 28, 35, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+}
+
+/* Scrollbar customization */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-base);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--bg-surface-elevated);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
+
+/* --- Global Form Styles --- */
+.w-100 { width: 100%; }
+.mt-4 { margin-top: 24px; }
+.form-group { margin-bottom: 20px; text-align: left; }
+.form-group label { display: block; margin-bottom: 8px; color: var(--text-muted); font-size: 0.9rem; }
+.form-row { display: flex; gap: 20px; }
+.form-row .form-group { flex: 1; }
+
+.input-glass {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  color: white;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.input-glass:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 10px rgba(203, 168, 124, 0.2);
+}
+
+textarea.input-glass {
+  min-height: 100px;
+  resize: vertical;
+}

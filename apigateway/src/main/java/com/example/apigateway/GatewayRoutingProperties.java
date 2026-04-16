@@ -21,6 +21,7 @@ public class GatewayRoutingProperties {
 
 	private String commandesUri = "lb://COMMANDES";
 	private String appdistBackendUri = "http://127.0.0.1:8081";
+	private String promotionsUri = "lb://PROMOTIONS";
 
 	public String getCatalogueUri() {
 		return catalogueUri;
@@ -44,5 +45,13 @@ public class GatewayRoutingProperties {
 
 	public void setAppdistBackendUri(String appdistBackendUri) {
 		this.appdistBackendUri = appdistBackendUri;
+	}
+
+	public String getPromotionsUri() {
+		return promotionsUri;
+	}
+
+	public void setPromotionsUri(String promotionsUri) {
+		this.promotionsUri = promotionsUri;
 	}
 }

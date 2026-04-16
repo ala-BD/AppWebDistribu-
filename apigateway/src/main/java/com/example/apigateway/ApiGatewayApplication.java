@@ -42,6 +42,7 @@ public class ApiGatewayApplication {
 		String catalogue = routing.getCatalogueUri();
 		String commandes = routing.getCommandesUri();
 		String appdistBackend = routing.getAppdistBackendUri();
+		String promotions = routing.getPromotionsUri();
 
 		return builder.routes()
 				.route("condidat",
@@ -100,6 +101,9 @@ public class ApiGatewayApplication {
 				.route("users",
 						r -> r.path("/api/users/**")
 								.uri(appdistBackend))
+				.route("promotions",
+						r -> r.path("/promotions/**")
+								.uri(promotions))
 				.build();
 	}
 }
