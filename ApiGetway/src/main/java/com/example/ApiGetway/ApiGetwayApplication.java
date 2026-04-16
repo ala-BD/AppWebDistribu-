@@ -28,13 +28,28 @@ public class ApiGetwayApplication {
 
 
                 .route(
+                        "avis" ,
+                        r->r.path("/avis", "/avis/**", "/avi", "/avi/**")
+                                .uri("lb://MeubleHub"))
+
+                .route(
+                        "reclamations" ,
+                        r->r.path("/reclamations", "/reclamations/**", "/reclamation", "/reclamation/**")
+                                .uri("lb://MeubleHub"))
+
+                .route(
                         "produit" ,
-                        r->r.path("/produit/**")
+                        r->r.path("/produit", "/produit/**")
                                 .uri("lb://MeubleHub"))
 
                 .route(
                         "categories" ,
-                        r->r.path("/categorie/**")
+                        r->r.path("/categorie", "/categorie/**")
+                                .uri("lb://MeubleHub"))
+
+                .route(
+                        "reponseavis" ,
+                        r->r.path("/reponseavis", "/reponseavis/**", "/reponses-avis", "/reponses-avis/**")
                                 .uri("lb://MeubleHub"))
 
 
